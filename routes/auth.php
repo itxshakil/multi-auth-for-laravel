@@ -7,7 +7,6 @@ use App\Http\Controllers\Auth\Admin\EmailVerificationPromptController as AdminEm
 use App\Http\Controllers\Auth\Admin\NewPasswordController as AdminNewPasswordController;
 use App\Http\Controllers\Auth\Admin\PasswordController as AdminPasswordController;
 use App\Http\Controllers\Auth\Admin\PasswordResetLinkController as AdminPasswordResetLinkController;
-use App\Http\Controllers\Auth\Admin\RegisteredAdminController;
 use App\Http\Controllers\Auth\Admin\VerifyEmailController as AdminVerifyEmailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -69,11 +68,6 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {
-        Route::get('register', [RegisteredAdminController::class, 'create'])
-            ->name('register');
-
-        Route::post('register', [RegisteredAdminController::class, 'store']);
-
         Route::get('login', [AdminAuthenticatedSessionController::class, 'create'])
             ->name('login');
 
