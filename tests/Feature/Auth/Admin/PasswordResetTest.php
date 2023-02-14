@@ -3,7 +3,7 @@
 namespace Tests\Feature\Auth\Admin;
 
 use App\Models\Admin;
-use Illuminate\Auth\Notifications\ResetPassword;
+use App\Notifications\AdminResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -27,7 +27,7 @@ class PasswordResetTest extends TestCase
 
         $this->post('/admin/forgot-password', ['email' => $admin->email]);
 
-        Notification::assertSentTo($admin, ResetPassword::class);
+        Notification::assertSentTo($admin, AdminResetPassword::class);
     }
 
     public function test_reset_password_screen_can_be_rendered(): void
@@ -38,7 +38,7 @@ class PasswordResetTest extends TestCase
 
         $this->post('/admin/forgot-password', ['email' => $admin->email]);
 
-        Notification::assertSentTo($admin, ResetPassword::class, function ($notification) {
+        Notification::assertSentTo($admin, AdminResetPassword::class, function ($notification) {
             $response = $this->get('/admin/reset-password/'.$notification->token);
 
             $response->assertStatus(200);
@@ -55,7 +55,7 @@ class PasswordResetTest extends TestCase
 
         $this->post('/admin/forgot-password', ['email' => $admin->email]);
 
-        Notification::assertSentTo($admin, ResetPassword::class, function ($notification) use ($admin) {
+        Notification::assertSentTo($admin, AdminResetPassword::class, function ($notification) use ($admin) {
             $response = $this->post('/admin/reset-password', [
                 'token' => $notification->token,
                 'email' => $admin->email,
